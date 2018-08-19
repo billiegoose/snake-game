@@ -11,3 +11,11 @@ which is _also_ by @mafintosh.
 His snake-game is built using [clivas](https://www.npmjs.com/package/clivas) - also by @mafintosh.
 
 My snake game is responsive (adapts to the terminal screen size) though. :grin:
+
+# To Play
+
+```js
+npx @wmhilton/snake-game
+```
+
+Use up/down/left/right keys.
