@@ -11,7 +11,7 @@ keypress(process.stdin);
 const stop = setInterval(() => {
   game = update(game, 'clock')
   game.height = diffy.height
-  game.width = diffy.width
+  game.width = Math.floor(diffy.width / 2)
   grid = render(game)
   diffy.render()
 }, 250)

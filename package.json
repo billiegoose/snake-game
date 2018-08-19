@@ -10,6 +10,7 @@
   "author": "William Hilton <wmhilton@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "chalk": "^2.4.1",
     "diffy": "^2.0.0",
     "keypress": "^0.2.1"
   }
