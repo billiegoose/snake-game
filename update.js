@@ -29,7 +29,12 @@ function collideSnake(snake, game) {
       } else {
         game.overMessage += `${snake.name} hit ${other.name}. `
       }
-      return game
+    }
+    if (snake.name !== other.name) {
+      if (collide.headCheck(snake.head, other.head)) {
+        snake.dead = true
+        game.overMessage += `${snake.name} hit ${other.name}. `
+      }
     }
   }
 }
@@ -121,6 +126,9 @@ module.exports = (game, action) => {
     }
     case 'l': {
       right(game.snake[1])
+      return game;
+    }
+    default: {
       return game;
     }
   }
