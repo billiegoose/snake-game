@@ -5,19 +5,6 @@ function cookie (game) {
   }
 }
 
-function snake (game) {
-  return {
-    head: {
-      x: game.width - 2,
-      y: Math.floor((game.height - 2) / 2),
-      dx: -1,
-      dy: 0
-    },
-    length: 3,
-    tail: []
-  }
-}
-
 function snakes (game) {
   if (game.numSnakes === 1) {
     return [
@@ -35,7 +22,8 @@ function snakes (game) {
           dy: -1
         },
         length: 3,
-        tail: []
+        tail: [],
+        actionQueue: []
       }
     ]
   }
@@ -55,7 +43,8 @@ function snakes (game) {
           dy: 0
         },
         length: 3,
-        tail: []
+        tail: [],
+        actionQueue: []
       },
       {
         color: 'blue',
@@ -71,7 +60,8 @@ function snakes (game) {
           dy: 0
         },
         length: 3,
-        tail: []
+        tail: [],
+        actionQueue: []
       }
     ]
   }

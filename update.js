@@ -1,7 +1,29 @@
 const init = require('./init.js')
 const collide = require('./collide.js')
 
+function applyActionQueue (snake) {
+  switch (snake.actionQueue.shift()) {
+    case 'up': {
+      up(snake)
+      return
+    }
+    case 'left': {
+      left(snake)
+      return
+    }
+    case 'down': {
+      down(snake)
+      return
+    }
+    case 'right': {
+      right(snake)
+      return
+    }
+  }
+}
+
 function moveSnake(snake, game) {
+  applyActionQueue(snake)
   snake.tail.unshift({
     x: snake.head.x,
     y: snake.head.y
@@ -94,38 +116,38 @@ module.exports = (game, action) => {
     }
     case 'w':
     case 'up': {
-      up(game.snake[0])
+      game.snake[0].actionQueue.push('up')
       return game;
     }
     case 'a':
     case 'left': {
-      left(game.snake[0])
+      game.snake[0].actionQueue.push('left')
       return game;
     }
     case 's':
     case 'down': {
-      down(game.snake[0])
+      game.snake[0].actionQueue.push('down')
       return game;
     }
     case 'd':
     case 'right': {
-      right(game.snake[0])
+      game.snake[0].actionQueue.push('right')
       return game;
     }
     case 'i': {
-      up(game.snake[1])
+      game.snake[1].actionQueue.push('up')
       return game;
     }
     case 'j': {
-      left(game.snake[1])
+      game.snake[1].actionQueue.push('left')
       return game;
     }
     case 'k': {
-      down(game.snake[1])
+      game.snake[1].actionQueue.push('down')
       return game;
     }
     case 'l': {
-      right(game.snake[1])
+      game.snake[1].actionQueue.push('right')
       return game;
     }
     default: {
