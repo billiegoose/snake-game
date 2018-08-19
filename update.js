@@ -41,6 +41,7 @@ function collideSnake(snake, game) {
   }
   if (collide.cookieCheck(snake.head, game.cookie)) {
     snake.length += 1
+    snake.score += 1
     game.cookie = init.cookie(game)
   }
   for (let other of game.snake) {
@@ -110,6 +111,11 @@ module.exports = (game, action) => {
       for (let snake of game.snake) {
         if (snake.dead) {
           game.over = true
+          for (let other of game.snake) {
+            if (snake.name !== other.name) {
+              other.score += 3
+            }
+          }
         }
       }
       return game;

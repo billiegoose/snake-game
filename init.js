@@ -1,3 +1,5 @@
+const chalk = require('chalk')
+
 function cookie (game) {
   return {    
     x: 1 + Math.floor(Math.random() * (game.width - 2)),
@@ -9,7 +11,7 @@ function snakes (game) {
   if (game.numSnakes === 1) {
     return [
       {
-        color: 'red',
+        color: chalk.bgRed,
         name: 'You',
         pronouns: {
           object: 'yourself'
@@ -23,14 +25,15 @@ function snakes (game) {
         },
         length: 3,
         tail: [],
-        actionQueue: []
+        actionQueue: [],
+        score: 0
       }
     ]
   }
   if (game.numSnakes === 2) {
     return [
       {
-        color: 'red',
+        color: chalk.bgRed,
         name: 'Red',
         pronouns: {
           object: 'itself'
@@ -44,10 +47,11 @@ function snakes (game) {
         },
         length: 3,
         tail: [],
-        actionQueue: []
+        actionQueue: [],
+        score: game.snake && game.snake[0].score || 0
       },
       {
-        color: 'blue',
+        color: chalk.bgBlue,
         name: 'Blue',
         pronouns: {
           object: 'itself'
@@ -61,7 +65,8 @@ function snakes (game) {
         },
         length: 3,
         tail: [],
-        actionQueue: []
+        actionQueue: [],
+        score: game.snake && game.snake[1].score || 0
       }
     ]
   }

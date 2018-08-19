@@ -14,7 +14,7 @@ function settings () {
 }
 
 let game = init.game(settings())
-let grid = []
+let grid = ''
 
 keypress(process.stdin);
 
@@ -24,7 +24,7 @@ const stop = setInterval(() => {
   game = update(game, 'clock')
   grid = render(game)
   diffy.render()
-}, 250)
+}, 100)
 
 process.stdin.on('keypress', (ch, key) => {  
   if (key && key.ctrl && key.name == 'c') {
@@ -43,5 +43,5 @@ process.stdin.setRawMode(true);
 // process.stdin.resume();
 
 diffy.render(function () {
-  return grid.map(row => row.join('')).join('\n')
+  return grid
 })
