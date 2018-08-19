@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const diffy = require('diffy')({fullscreen: true})
 const keypress = require('keypress')
 const render = require('./render.js')

@@ -3,7 +3,9 @@
   "version": "1.0.1",
   "description": "",
   "main": "index.js",
-  "bin": "index.js",
+  "bin": {
+    "snake-game": "index.js"
+  },
   "scripts": {
     "start": "node index.js"
   },
