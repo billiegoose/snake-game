@@ -4,8 +4,13 @@ module.exports = drawGame
 
 function drawGame (game) {
   let grid = drawBlank(game)
-  grid = drawCookie(grid, game)
-  grid = drawSnake(grid, game)
+  grid = drawCookie(grid, game.cookie)
+  for (let snake of game.snake) {
+    grid = drawTail(grid, snake)
+  }
+  for (let snake of game.snake) {
+    grid = drawHead(grid, snake)
+  }
   grid = drawGameOverMessage(grid, game)
   return grid
 }
@@ -36,21 +41,25 @@ function drawGameOverMessage (grid, {height, width, over, overMessage}) {
     let y = Math.floor(height / 2)
     let x = Math.floor((width - overMessage.length/2) / 2)
     for (let i = 0; i < overMessage.length; i+=2) {
-      grid[y][x + i/2] = overMessage[i] + overMessage[i+1]
+      grid[y][x + i/2] = overMessage[i] + (overMessage[i+1] || ' ')
     }
   }
   return grid
 }
 
-function drawSnake (grid, {height, width, snake, over}) {
+function drawTail (grid, snake) {
   for (let point of snake.tail) {
-    grid[point.y][point.x] = chalk.inverse.red('  ')
+    grid[point.y][point.x] = chalk.inverse[snake.color]('  ')
   }
-  grid[snake.head.y][snake.head.x] = chalk.inverse.red('  ')
   return grid
 }
 
-function drawCookie (grid, {cookie}) {
+function drawHead (grid, snake) {
+  grid[snake.head.y][snake.head.x] = chalk.inverse[snake.color]('  ')
+  return grid
+}
+
+function drawCookie (grid, cookie) {
   grid[cookie.y][cookie.x] = chalk.inverse.yellow('  ')
   return grid
 }

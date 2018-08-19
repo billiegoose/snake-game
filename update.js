@@ -1,66 +1,126 @@
 const init = require('./init.js')
+const collide = require('./collide.js')
+
+function moveSnake(snake, game) {
+  snake.tail.unshift({
+    x: snake.head.x,
+    y: snake.head.y
+  })
+  snake.tail = snake.tail.slice(0, snake.length)
+  snake.head.x += snake.head.dx
+  snake.head.y += snake.head.dy
+}
+
+function collideSnake(snake, game) {
+  if (collide.wallCheck(snake.head, game)) {
+    snake.dead = true
+    game.overMessage += `${snake.name} hit a wall. `
+    return game
+  }
+  if (collide.cookieCheck(snake.head, game.cookie)) {
+    snake.length += 1
+    game.cookie = init.cookie(game)
+  }
+  for (let other of game.snake) {
+    if (collide.tailCheck(snake.head, other.tail)) {
+      snake.dead = true
+      if (snake.name === other.name) {
+        game.overMessage += `${snake.name} hit ${snake.pronouns.object}. `
+      } else {
+        game.overMessage += `${snake.name} hit ${other.name}. `
+      }
+      return game
+    }
+  }
+}
+
+function up (snake) {
+  if (snake.head.dx !== 0) {
+    snake.head.dx = 0
+    snake.head.dy = -1
+  }
+}
+
+function left (snake) {
+  if (snake.head.dy !== 0) {
+    snake.head.dx = -1
+    snake.head.dy = 0
+  }
+}
+
+function down (snake) {
+  if (snake.head.dx !== 0) {
+    snake.head.dx = 0
+    snake.head.dy = 1
+  }
+}
+
+function right (snake) {
+  if (snake.head.dy !== 0) {
+    snake.head.dx = 1
+    snake.head.dy = 0
+  }
+}
 
 module.exports = (game, action) => {
   if (action !== 'clock' && game.over) {
-    return init()
+    if (action === '1') {
+      game.numSnakes = 1
+    } else if (action === '2') {
+      game.numSnakes = 2
+    }
+    return init.game(game)
   }
   switch (action) {
     case 'clock': {
       if (game.over) return game
-      game.snake.tail.unshift({
-        x: game.snake.head.x,
-        y: game.snake.head.y
-      })
-      game.snake.tail = game.snake.tail.slice(0, game.snake.length)
-      game.snake.head.x += game.snake.head.dx
-      game.snake.head.y += game.snake.head.dy
-      
-      if (game.snake.head.x < 1 || game.snake.head.x > game.width - 2
-        || game.snake.head.y < 1 || game.snake.head.y > game.height - 2) {
-        game.over = true
-        game.overMessage = 'You hit a wall'
-        return game
+      for (let snake of game.snake) {
+        moveSnake(snake, game)
       }
-      for (let point of game.snake.tail) {
-        if (game.snake.head.x === point.x && game.snake.head.y === point.y) {
+      for (let snake of game.snake) {
+        collideSnake(snake, game)
+      }
+      for (let snake of game.snake) {
+        if (snake.dead) {
           game.over = true
-          game.overMessage = 'You hit yourself'
-          return game
         }
       }
-      if (game.snake.head.x === game.cookie.x && game.snake.head.y === game.cookie.y) {
-        game.snake.length += 1
-        game.cookie.x = 1 + Math.floor(Math.random() * (game.width - 2))
-        game.cookie.y = 1 + Math.floor(Math.random() * (game.height - 2))
-      }
       return game;
     }
-    case 'down': {
-      if (game.snake.head.dx !== 0) {
-        game.snake.head.dx = 0
-        game.snake.head.dy = 1
-      }
-      return game;
-    }
-    case 'right': {
-      if (game.snake.head.dy !== 0) {
-        game.snake.head.dx = 1
-        game.snake.head.dy = 0
-      }
-      return game;
-    }
+    case 'w':
     case 'up': {
-      if (game.snake.head.dx !== 0) {
-        game.snake.head.dx = 0
-        game.snake.head.dy = -1
-      }
+      up(game.snake[0])
       return game;
     }
+    case 'a':
     case 'left': {
-      if (game.snake.head.dy !== 0) {
-        game.snake.head.dx = -1
-        game.snake.head.dy = 0
-      }
+      left(game.snake[0])
+      return game;
+    }
+    case 's':
+    case 'down': {
+      down(game.snake[0])
+      return game;
+    }
+    case 'd':
+    case 'right': {
+      right(game.snake[0])
+      return game;
+    }
+    case 'i': {
+      up(game.snake[1])
+      return game;
+    }
+    case 'j': {
+      left(game.snake[1])
+      return game;
+    }
+    case 'k': {
+      down(game.snake[1])
+      return game;
+    }
+    case 'l': {
+      right(game.snake[1])
       return game;
     }
   }

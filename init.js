@@ -1,18 +1,95 @@
-module.exports = () => ({
-  over: false,
-  overMessage: '',
-  cookie: {
-    x: 2,
-    y: 2
-  },
-  snake: {
+function cookie (game) {
+  return {    
+    x: 1 + Math.floor(Math.random() * (game.width - 2)),
+    y: 1 + Math.floor(Math.random() * (game.height - 2))
+  }
+}
+
+function snake (game) {
+  return {
     head: {
-      x: 1,
-      y: 1,
-      dx: 1,
+      x: game.width - 2,
+      y: Math.floor((game.height - 2) / 2),
+      dx: -1,
       dy: 0
     },
     length: 3,
     tail: []
   }
-})
+}
+
+function snakes (game) {
+  if (game.numSnakes === 1) {
+    return [
+      {
+        color: 'red',
+        name: 'You',
+        pronouns: {
+          object: 'yourself'
+        },
+        dead: false,
+        head: {
+          x: Math.floor((game.width - 2) / 2),
+          y: Math.floor((game.height - 2) / 2),
+          dx: 0,
+          dy: -1
+        },
+        length: 3,
+        tail: []
+      }
+    ]
+  }
+  if (game.numSnakes === 2) {
+    return [
+      {
+        color: 'red',
+        name: 'Red',
+        pronouns: {
+          object: 'itself'
+        },
+        dead: false,
+        head: {
+          x: 1,
+          y: Math.floor((game.height - 2) / 2),
+          dx: 1,
+          dy: 0
+        },
+        length: 3,
+        tail: []
+      },
+      {
+        color: 'blue',
+        name: 'Blue',
+        pronouns: {
+          object: 'itself'
+        },
+        dead: false,
+        head: {
+          x: game.width - 2,
+          y: Math.floor((game.height - 2) / 2),
+          dx: -1,
+          dy: 0
+        },
+        length: 3,
+        tail: []
+      }
+    ]
+  }
+}
+
+function game (game) {
+  return {
+    over: false,
+    numSnakes: game.numSnakes,
+    width: game.width,
+    height: game.height,
+    overMessage: '',
+    cookie: cookie(game),
+    snake: snakes(game)
+  }
+}
+
+module.exports = {
+  game,
+  cookie 
+}
