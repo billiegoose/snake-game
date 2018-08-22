@@ -40,7 +40,7 @@ function collideSnake(snake, game) {
     return game
   }
   if (collide.cookieCheck(snake.head, game.cookie)) {
-    snake.length += 1
+    snake.length += 3
     snake.score += 1
     game.cookie = init.cookie(game)
   }
@@ -91,7 +91,12 @@ function right (snake) {
 }
 
 module.exports = (game, action) => {
-  if (action !== 'clock' && game.over) {
+  if (action === 'space' || action === 'escape') {
+    game.pause = !game.pause
+    return game
+  }
+  if (game.pause) return game
+  if (action !== 'clock' && game.over && !game.pause) {
     if (action === '1') {
       game.numSnakes = 1
     } else if (action === '2') {
@@ -111,6 +116,8 @@ module.exports = (game, action) => {
       for (let snake of game.snake) {
         if (snake.dead) {
           game.over = true
+          game.pause = true
+          setTimeout(() => game.pause = false, 1000)
           for (let other of game.snake) {
             if (snake.name !== other.name) {
               other.score += 3
