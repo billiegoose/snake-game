@@ -127,40 +127,40 @@ module.exports = (game, action) => {
       }
       return game;
     }
-    case 'w':
-    case 'up': {
+    case 'w': {
       game.snake[0].actionQueue.push('up')
       return game;
     }
-    case 'a':
-    case 'left': {
+    case 'a': {
       game.snake[0].actionQueue.push('left')
       return game;
     }
-    case 's':
-    case 'down': {
+    case 's': {
       game.snake[0].actionQueue.push('down')
       return game;
     }
-    case 'd':
-    case 'right': {
+    case 'd': {
       game.snake[0].actionQueue.push('right')
       return game;
     }
-    case 'i': {
-      game.snake[1].actionQueue.push('up')
+    case 'i':
+    case 'up': {
+      game.snake[game.numSnakes - 1].actionQueue.push('up')
       return game;
     }
-    case 'j': {
-      game.snake[1].actionQueue.push('left')
+    case 'j':
+    case 'left': {
+      game.snake[game.numSnakes - 1].actionQueue.push('left')
       return game;
     }
-    case 'k': {
-      game.snake[1].actionQueue.push('down')
+    case 'k':
+    case 'down': {
+      game.snake[game.numSnakes - 1].actionQueue.push('down')
       return game;
     }
-    case 'l': {
-      game.snake[1].actionQueue.push('right')
+    case 'l':
+    case 'right': {
+      game.snake[game.numSnakes - 1].actionQueue.push('right')
       return game;
     }
     default: {
